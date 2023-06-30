@@ -1,12 +1,19 @@
-import { useContext } from 'react';
+import { useSelector } from 'react-redux';
+import PaymentForm from '../../components/payment-form/payment-form.components';
 
-import { CartContext } from '../../contexts/cart.context';
+import {
+  selectCartItems,
+  selectCartTotal,
+} from '../../store/cart/cart.selector';
+
 import CheckOutItem from '../../components/check-out-item/check-out-item.component';
 
 import './checkout.styles.scss';
+import { setCartVisible } from '../../store/cart/cart.action';
 
 const CheckOutRoute = () => {
-  const { cartItems, setCartVisible, cartTotal } = useContext(CartContext);
+  const cartItems = useSelector(selectCartItems);
+  const cartTotal = useSelector(selectCartTotal);
   setCartVisible(false);
 
   return (
@@ -32,6 +39,7 @@ const CheckOutRoute = () => {
         <CheckOutItem key={cartItem.id} cartItem={cartItem} />
       ))}
       <span className="total">Total Cost: ${cartTotal}</span>
+      <PaymentForm />
     </div>
   );
 };
